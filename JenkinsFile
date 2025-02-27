@@ -11,7 +11,6 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 git credentialsId: 'github-credentials', branch: 'main', url: 'https://github.com/Bhagyashah05/calc-sci-mini.git'
-
             }
         }
 
@@ -49,20 +48,19 @@ pipeline {
 
         stage('Push Backend Image to DockerHub') {
             steps {
-                            withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                                sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                                sh "docker push $BE_IMAGE:latest"
-                            }
+                withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                    sh "docker push $BE_IMAGE:latest"
+                }
+            }
         }
-
-
 
         stage('Push Frontend Image to DockerHub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                                                sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                                                sh "docker push $FE_IMAGE:latest"
-                                            }
+                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                    sh "docker push $FE_IMAGE:latest"
+                }
             }
         }
 
@@ -72,5 +70,4 @@ pipeline {
             }
         }
     }
-}
 }
