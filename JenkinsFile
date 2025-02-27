@@ -10,7 +10,8 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Bhagyashah05/calc-sci-mini.git'
+                git credentialsId: 'github-credentials', branch: 'main', url: 'https://github.com/Bhagyashah05/calc-sci-mini.git'
+
             }
         }
 
