@@ -37,4 +37,4 @@
         networks:
           - name: sci-calc-network
         ports:
-          - "3000:3000"
+          - "3000:80"
