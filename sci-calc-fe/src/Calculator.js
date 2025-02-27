@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Calculator.css"; // Import the CSS file
 
 const API_URL = "http://localhost:8090/api";
 
@@ -19,17 +20,22 @@ function Calculator() {
     };
 
     return (
-        <div>
+        <div className="calculator-container">
+            <h1>Scientific Calculator</h1>
             <input
                 type="number"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                className="input-field"
+                placeholder="Enter number"
             />
-            <button onClick={() => calculate("sqrt")}>√x</button>
-            <button onClick={() => calculate("fact")}>x!</button>
-            <button onClick={() => calculate("ln")}>ln(x)</button>
-            <button onClick={() => calculate("power")}>xʸ</button>
-            <h2>Result: {result}</h2>
+            <div className="buttons">
+                <button className="calc-button" onClick={() => calculate("sqrt")}>√x</button>
+                <button className="calc-button" onClick={() => calculate("fact")}>x!</button>
+                <button className="calc-button" onClick={() => calculate("ln")}>ln(x)</button>
+                <button className="calc-button" onClick={() => calculate("power")}>xʸ</button>
+            </div>
+            <h2 className="result">Result: {result}</h2>
         </div>
     );
 }
