@@ -49,23 +49,20 @@ pipeline {
 
         stage('Push Backend Image to DockerHub') {
             steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-credentials') {
-                        sh "docker push ${BE_IMAGE}:latest"
-                    }
-                }
-            }
+                            withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                                sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                                sh "docker push $BE_IMAGE:latest"
+                            }
         }
 
 
 
         stage('Push Frontend Image to DockerHub') {
             steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-credentials') {
-                         sh "docker push ${FE_IMAGE}:latest"
-                        }
-                    }
+                withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                                                sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                                                sh "docker push $FE_IMAGE:latest"
+                                            }
             }
         }
 
