@@ -1,0 +1,25 @@
+package org.bhagya.scicalcbe.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class CalcService {
+    public double squareRoot(double x) {
+        return Math.sqrt(x);
+    }
+    public long factorial(int x) {
+        long fact = 1;
+        for (int i = 1; i <= x; i++) {
+            fact *= i;
+        }
+        return fact;
+    }
+
+    public double naturalLog(double x) {
+        return Math.log(x);
+    }
+
+    public double power(double base, double exponent) {
+        return Math.pow(base, exponent);
+    }
+}
