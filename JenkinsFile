@@ -1,0 +1,71 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_HUB_USER = "bhagyashah05"
+        BE_IMAGE = "bhagyashah05/sci-calc-be"
+        FE_IMAGE = "bhagyashah05/sci-calc-fe"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Bhagyashah05/calc-sci-mini'
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                dir('sci-calc-be') {
+                    sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Run Backend Tests') {
+            steps {
+                dir('sci-calc-be') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Build Backend Docker Image') {
+            steps {
+                dir('sci-calc-be') {
+                    sh "docker build -t ${BE_IMAGE}:latest ."
+                }
+            }
+        }
+
+        stage('Build Frontend Docker Image') {
+            steps {
+                dir('sci-calc-fe') {
+                    sh "docker build -t ${FE_IMAGE}:latest ."
+                }
+            }
+        }
+
+        stage('Push Backend Image to DockerHub') {
+            steps {
+                withDockerRegistry([credentialsId: 'docker-credentials', url: '']) {
+                    sh "docker push ${BE_IMAGE}:latest"
+                }
+            }
+        }
+
+        stage('Push Frontend Image to DockerHub') {
+            steps {
+                withDockerRegistry([credentialsId: 'docker-credentials', url: '']) {
+                    sh "docker push ${FE_IMAGE}:latest"
+                }
+            }
+        }
+
+        stage('Run Ansible Playbook') {
+            steps {
+                sh 'ansible-playbook -i inventory deploy.yml'
+            }
+        }
+    }
+}

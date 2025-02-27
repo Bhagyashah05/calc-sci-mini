@@ -1,0 +1,40 @@
+---
+- name: Deploy Sci-Calc App
+  hosts: servers
+  become: true
+  tasks:
+    - name: Pull Backend Docker Image
+      docker_image:
+        name: bhagyashah05/sci-calc-be:latest
+        source: pull
+
+    - name: Pull Frontend Docker Image
+      docker_image:
+        name: bhagyashah05/sci-calc-fe:latest
+        source: pull
+
+    - name: Create a Docker Network
+      docker_network:
+        name: sci-calc-network
+
+    - name: Run Backend Container
+      docker_container:
+        name: backend
+        image: bhagyashah05/sci-calc-be:latest
+        state: started
+        restart_policy: always
+        networks:
+          - name: sci-calc-network
+        ports:
+          - "8090:8090"
+
+    - name: Run Frontend Container
+      docker_container:
+        name: frontend
+        image: bhagyashah05/sci-calc-fe:latest
+        state: started
+        restart_policy: always
+        networks:
+          - name: sci-calc-network
+        ports:
+          - "3000:3000"
