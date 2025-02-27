@@ -69,5 +69,25 @@ pipeline {
                 sh 'ansible-playbook -i inventory deploy.yml'
             }
         }
+
+
     }
+
+    post {
+            success {
+                mail to: "bhagyashah.ashishkumar@iiitb.ac.in",
+                subject: "Application Deployment Success",
+                body:"The build was success"
+            }
+            failure {
+                mail to: "bhagyashah.ashishkumar@iiitb.ac.in",
+                subject: "Application Deployment Failure",
+                body:"The build Failed"
+            }
+            always{
+            cleanWs()
+            }
+        }
 }
+
+
