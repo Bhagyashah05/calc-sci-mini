@@ -35,7 +35,9 @@ function Calculator() {
                 <button className="calc-button" onClick={() => calculate("ln")}>ln(x)</button>
                 <button className="calc-button" onClick={() => calculate("power")}>xʸ</button>
             </div>
-            <h2 className="result">Result: {result}</h2>
+            <h2 className="result">
+                Result: {result === -1 ? "Invalid" : result}
+            </h2>
         </div>
     );
 }
