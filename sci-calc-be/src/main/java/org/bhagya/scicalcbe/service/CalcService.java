@@ -5,10 +5,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalcService {
     public double squareRoot(double x) {
+        if(x<0) return -1;
         return Math.sqrt(x);
     }
     public long factorial(int x) {
-        if(x<=1) return 1;
+        if(x<=1) return -1;
         long fact = 1;
         for (int i = 1; i <= x; i++) {
             fact *= i;
@@ -17,6 +18,7 @@ public class CalcService {
     }
 
     public double naturalLog(double x) {
+        if(x<=0) return -1;
         return Math.log(x);
     }
 
