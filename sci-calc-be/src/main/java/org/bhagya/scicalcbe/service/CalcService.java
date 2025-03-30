@@ -8,6 +8,7 @@ public class CalcService {
         return Math.sqrt(x);
     }
     public long factorial(int x) {
+        if(x<=1) return 1;
         long fact = 1;
         for (int i = 1; i <= x; i++) {
             fact *= i;
